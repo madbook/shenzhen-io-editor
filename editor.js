@@ -11,9 +11,9 @@ class Editor {
                 let text = this.txtInput.value;
                 let p = new Parser();
                 p.parse(text);
-                this.jsonInput.textContent = JSON.stringify(p, null, 4);
+                this.jsonInput.value = JSON.stringify(p, null, 4);
             } catch (err) {
-                this.jsonInput.textContent = err.stack;
+                this.jsonInput.value = err.stack;
             }
             e.preventDefault();
         });
@@ -24,9 +24,9 @@ class Editor {
                 let json = JSON.parse(text);
                 let f = new Formatter();
                 f.format(json);
-                this.txtInput.textContent = f.output;
+                this.txtInput.value = f.output;
             } catch (err) {
-                this.txtInput.textContent = err.stack;
+                this.txtInput.value = err.stack;
             }
         });
     }
