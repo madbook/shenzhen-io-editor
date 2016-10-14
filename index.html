@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shenzhen I/O Editor</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Save file parser</h1>
+
+            <p>
+                Paste contents of a saved design in the <b>input</b> box, then click <b>parse</b> to get
+                the parsed JSON output in the <b>output</b> box.
+            </p>
+
+            <details>
+                <summary>more</summary>
+
+                save files can be found in...
+
+                <ul>
+                    <li>
+                        <b>Windows</b>: <code>Documents\My Games\SHENZEN IO\&lt;Steam account id&gt;</code>
+                    </li>
+                    <li>
+                        <b>Arch Linux</b>: <code>$HOME/.local/share/SHENZHEN IO/&lt;Steam account id&gt;</code>
+                    </li>
+                    <li>
+                        <b>macOS</b>: <code>~/Library/Application Support/SHENZHEN IO/&lt;Steam account id&gt;</code>
+                    </li>
+                </ul>
+            </details>
+        </header>
+        <noscript>
+            <b>Sorry! This editor requires JavaScript to work.</b>
+        </noscript>
+        <main class="editor">
+            <div class="editor__panel">
+                <div class="editor__input">
+                    <textarea class="editor__text" ref="input"></textarea>
+                    <div>
+                        <button ref="submit">Parse!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editor__panel">
+                <pre class="editor__output">
+                    <code class="editor__text" ref="output"></code>
+                </pre>
+            </div>
+        </main>
+        <script src="script.js"></script>
+    </body>
+</html>

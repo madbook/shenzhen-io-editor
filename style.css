@@ -1,0 +1,67 @@
+* {
+    font-family: "Source Code Pro", monospace, monospace;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    padding:  10px;
+}
+
+body > main {
+    flex-grow: 1;
+}
+
+.editor {
+    display: flex;
+}
+
+.editor__panel {
+    flex: 1 1 50%;
+}
+
+.editor__input {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.editor__input textarea {
+    flex-grow: 1;
+}
+
+.editor__output {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    position: relative;
+}
+
+.editor__output .editor__text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.editor__text {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    overflow: scroll;
+    padding: 10px;
+    display: block;
+    margin: 0;
+}
