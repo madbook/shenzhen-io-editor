@@ -9,8 +9,9 @@
             <h1>Save file parser</h1>
 
             <p>
-                Paste contents of a saved design in the <b>input</b> box, then click <b>parse</b> to get
-                the parsed JSON output in the <b>output</b> box.
+                Paste contents of a saved design in the <b>input</b> box, then click <b>"Convert to JSON!"</b> to get
+                the parsed JSON output in the <b>output</b> box.  Convert parsed JSON back into the native
+                level format by clicking the <b>"Convert to level format!"</b> button.
             </p>
 
             <details>
@@ -37,18 +38,23 @@
         <main class="editor">
             <div class="editor__panel">
                 <div class="editor__input">
-                    <textarea class="editor__text" ref="input"></textarea>
+                    <textarea class="editor__text" ref="inputTxt"></textarea>
                     <div>
-                        <button ref="submit">Parse!</button>
+                        <button ref="txtToJSON">Convert to JSON!</button>
                     </div>
                 </div>
             </div>
             <div class="editor__panel">
-                <pre class="editor__output">
-                    <code class="editor__text" ref="output"></code>
-                </pre>
+                <div class="editor__input">
+                    <textarea class="editor__text" ref="inputJSON"></textarea>
+                    <div>
+                        <button ref="jsonToTxt">Convert to level format!</button>
+                    </div>
+                </div>
             </div>
         </main>
-        <script src="script.js"></script>
+        <script src="parser.js"></script>
+        <script src="formatter.js"></script>
+        <script src="editor.js"></script>
     </body>
 </html>

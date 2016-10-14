@@ -45,6 +45,10 @@ class Parser {
             this.scope.fields.$capture = [];
         }
 
+        if (this.mode !== 'capture') {
+            throw new Error(`Expected a field definition, but got "${line}"`);
+        }
+
         this.scope.fields.$capture.push(line);
     }
 
@@ -90,7 +94,9 @@ class Parser {
             try {
                 this.parseLine(lines[i]);
             } catch (err) {
-                throw new Error(`Error during "${this.mode}" on line ${i + 1}: ${err.message}`);
+                let parseError = new Error(`Error during "${this.mode}" on line ${i + 1}: ${err.message}`);
+                parseError.name = "ParserError";
+                throw parseError;
             }
         }
 
@@ -111,26 +117,3 @@ class Parser {
         }
     }
 }
-
-class Editor {
-    constructor(rootElement) {
-        this.rootElement = rootElement;
-        this.input = this.rootElement.querySelector('[ref=input]');
-        this.output = this.rootElement.querySelector('[ref=output]');
-        this.parseButton = this.rootElement.querySelector('[ref=submit]');
-
-        this.parseButton.addEventListener('click', (e) => {
-            try {
-                let text = this.input.value;
-                let p = new Parser();
-                p.parse(text);
-                this.output.textContent = JSON.stringify(p, null, 4);
-            } catch (err) {
-                this.output.textContent = err.stack;
-            }
-            e.preventDefault();
-        });
-    }
-}
-
-let editor = new Editor(document.querySelector('.editor'));
