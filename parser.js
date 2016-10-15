@@ -109,7 +109,9 @@ class Parser {
         var match = line.match(FIELD_PATTERN);
 
         if (!line.length) {
-            this.closeScope();
+            while (this.scope !== this.rootScope) {
+                this.closeScope();
+            }
         } else if (!match) {
             this.captureLine(line);
         } else {
