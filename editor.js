@@ -31,5 +31,3 @@ class Editor {
         });
     }
 }
-
-let editor = new Editor(document.querySelector('.editor'));

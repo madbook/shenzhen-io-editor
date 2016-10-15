@@ -35,17 +35,25 @@
         <noscript>
             <b>Sorry! This editor requires JavaScript to work.</b>
         </noscript>
-        <main class="editor">
-            <div class="editor__panel">
-                <div class="editor__input">
+        <main class="panelbox editor">
+            <div class="panel">
+                <div class="panel__controls">
+                    <input type="checkbox" id="toggleTxtPanel" ref="toggleVisibility" checked>
+                    <label class="panel__label" for="toggleTxtPanel">File Input Panel</label>
+                </div>
+                <div class="panel__contents" ref="contents">
                     <textarea class="editor__text" ref="inputTxt" autocomplete="false" spellcheck="false"></textarea>
                     <div>
                         <button ref="txtToJSON">Convert to JSON!</button>
                     </div>
                 </div>
             </div>
-            <div class="editor__panel">
-                <div class="editor__input">
+            <div class="panel">
+                <div class="panel__controls">
+                    <input type="checkbox" id="toggleJsonPanel" ref="toggleVisibility" checked>
+                    <label class="panel__label" for="toggleJsonPanel">JSON Input Panel</label>
+                </div>
+                <div class="panel__contents" ref="contents">
                     <textarea class="editor__text" ref="inputJSON" autocomplete="false" spellcheck="false"></textarea>
                     <div>
                         <button ref="jsonToTxt">Convert to level format!</button>
@@ -55,6 +63,8 @@
         </main>
         <script src="parser.js"></script>
         <script src="formatter.js"></script>
+        <script src="panel.js"></script>
         <script src="editor.js"></script>
+        <script src="app.js"></script>
     </body>
 </html>
