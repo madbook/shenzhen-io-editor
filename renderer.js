@@ -19,7 +19,7 @@ class Renderer {
 
     renderTraces(state, canvas) {
         let traces = state.traces;
-        if (!traces === undefined) {
+        if (traces === undefined) {
             throw new Error('Cannot render traces because no "traces" attribute was found');
         }
 

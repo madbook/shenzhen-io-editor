@@ -74,6 +74,7 @@ class Editor {
             let json = JSON.parse(text);
             let r = new Renderer();
             r.render(json, this.traceRenderer);
+            this.renderOutput.textContent = '';
         } catch (err) {
             this.renderOutput.textContent = err.stack;
         }
