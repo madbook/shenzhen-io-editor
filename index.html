@@ -42,7 +42,7 @@
                     <label class="panel__label" for="toggleTxtPanel">File Input Panel</label>
                 </div>
                 <div class="panel__contents" ref="contents">
-                    <textarea class="editor__text" ref="inputTxt" autocomplete="false" spellcheck="false"></textarea>
+                    <textarea class="editor__text fill" ref="inputTxt" autocomplete="false" spellcheck="false"></textarea>
                     <div>
                         <button ref="txtToJSON">Convert to JSON!</button>
                     </div>
@@ -54,15 +54,31 @@
                     <label class="panel__label" for="toggleJsonPanel">JSON Input Panel</label>
                 </div>
                 <div class="panel__contents" ref="contents">
-                    <textarea class="editor__text" ref="inputJSON" autocomplete="false" spellcheck="false"></textarea>
+                    <textarea class="editor__text fill" ref="inputJSON" autocomplete="false" spellcheck="false"></textarea>
                     <div>
                         <button ref="jsonToTxt">Convert to level format!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel__controls">
+                    <input type="checkbox" id="toggleRenderPanel" ref="toggleVisibility" checked>
+                    <label class="panel__label" for="toggleRenderPanel">Render Panel</label>
+                </div>
+                <div class="panel__contents" ref="contents">
+                    <div class="fill">
+                        <canvas ref="traceRenderer" width="440" height="280"></canvas>
+                        <output ref="renderOutput"></output>
+                    </div>
+                    <div>
+                        <button ref="render">Render level data!</button>
                     </div>
                 </div>
             </div>
         </main>
         <script src="parser.js"></script>
         <script src="formatter.js"></script>
+        <script src="renderer.js"></script>
         <script src="panel.js"></script>
         <script src="editor.js"></script>
         <script src="app.js"></script>

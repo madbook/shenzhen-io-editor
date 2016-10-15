@@ -3,8 +3,11 @@ class Editor {
         this.rootElement = rootElement;
         this.txtInput = rootElement.querySelector('[ref=inputTxt]');
         this.txtButton = rootElement.querySelector('[ref=txtToJSON]');
-        this.jsonInput = this.rootElement.querySelector('[ref=inputJSON]');
-        this.jsonButton = this.rootElement.querySelector('[ref=jsonToTxt]');
+        this.jsonInput = rootElement.querySelector('[ref=inputJSON]');
+        this.jsonButton = rootElement.querySelector('[ref=jsonToTxt]');
+        this.renderButton = rootElement.querySelector('[ref=render]');
+        this.traceRenderer = rootElement.querySelector('[ref=traceRenderer]');
+        this.renderOutput = rootElement.querySelector('[ref=renderOutput]');
 
         this.txtButton.addEventListener('click', (e) => {
             try {
@@ -28,6 +31,19 @@ class Editor {
             } catch (err) {
                 this.txtInput.value = err.stack;
             }
+            e.preventDefault();
+        });
+
+        this.renderButton.addEventListener('click', (e) => {
+            try {
+                let text = this.jsonInput.value;
+                let json = JSON.parse(text);
+                let r = new Renderer();
+                r.render(json, this.traceRenderer);
+            } catch (err) {
+                this.renderOutput.textContent = err.stack;
+            }
+            e.preventDefault();
         });
     }
 }
