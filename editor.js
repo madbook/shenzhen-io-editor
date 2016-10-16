@@ -3,6 +3,27 @@ const TOP_TRACE = 0b0010;
 const LEFT_TRACE = 0b0100;
 const BOTTOM_TRACE = 0b1000;
 
+const BLANK = `[name] New design 1
+[puzzle] Sz000
+
+[traces] 
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+......................
+
+`;
+
 class Editor {
     constructor(rootElement) {
         this.rootElement = rootElement;
@@ -15,10 +36,11 @@ class Editor {
         this.renderOutput = rootElement.querySelector('[ref=renderOutput]');
 
         this.txtInput.value = this.loadFromLocalStorage('txtInput.value');
-        this.jsonInput.value = this.loadFromLocalStorage('jsonInput.value');
-        if (this.jsonInput.value) {
-            this.renderJSON();
+        if (!this.txtInput.value) {
+            this.txtInput.value = BLANK;
         }
+
+        this.parseTxt();
 
         this.txtInput.addEventListener('input', (e) => {
             this.saveToLocalStorage('txtInput.value', this.txtInput.value);
@@ -26,7 +48,6 @@ class Editor {
         });
 
         this.jsonInput.addEventListener('input', (e) => {
-            this.saveToLocalStorage('jsonInput.value', this.jsonInput.value);
             this.formatJSON();
         });
 
@@ -128,7 +149,6 @@ class Editor {
         try {
             let text = JSON.stringify(json, null, 4);
             this.jsonInput.value = text;
-            this.saveToLocalStorage('jsonInput.value', this.jsonInput.value);
         } catch (err) {
             // TODO
         }
