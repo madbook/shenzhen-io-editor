@@ -66,6 +66,12 @@ textarea.editor__text {
     transform-origin: bottom left;
 }
 
-.interactive {
+.renderer {
     cursor: pointer;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    max-width: 100vh;
+    margin: auto;
+    display: block;
 }

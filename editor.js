@@ -45,33 +45,50 @@ class Editor {
             e.preventDefault();
         });
 
+        this._isDown = false;
+
         this.traceRenderer.addEventListener('mouseup', (e) => {
-            let x = Math.floor(e.offsetX / CELL_SIZE);
-            let y = Math.floor(e.offsetY / CELL_SIZE);
-            this.endDraw(x, y);
+            this._isDown = false;
+        });
+
+        this.traceRenderer.addEventListener('mouseout', (e) => {
+            this._isDown = false;
+        });
+
+        this.traceRenderer.addEventListener('mousemove', (e) => {
+            if (!this._isDown) { return }
+
+            let rect = e.target.getClientRects()[0];
+            let x = Math.floor(e.offsetX * e.target.width / rect.width / CELL_SIZE);
+            let y = Math.floor(e.offsetY * e.target.height / rect.height / CELL_SIZE);
+            this.updateDraw(x, y);
         });
 
         this.traceRenderer.addEventListener('mousedown', (e) => {
-            let x = Math.floor(e.offsetX / CELL_SIZE);
-            let y = Math.floor(e.offsetY / CELL_SIZE);
+            let rect = e.target.getClientRects()[0];
+            let x = Math.floor(e.offsetX * e.target.width / rect.width / CELL_SIZE);
+            let y = Math.floor(e.offsetY * e.target.height / rect.height / CELL_SIZE);
             this.startDraw(x, y);
         });
     }
 
     startDraw(x, y) {
+        this._isDown = true;
         this._startX = x;
         this._startY = y;
     }
 
-    endDraw(x, y) {
+    updateDraw(x, y) {
         let x1 = this._startX;
         let y1 = this._startY;
-        this._startX = this._startY = -1;
 
         let dX = x - x1;
         let dY = y - y1;
         let dist =  Math.abs(Math.sqrt(dX * dX + dY * dY));
         if (dist !== 1) { return }
+
+        this._startX = x;
+        this._startY = y;
 
         let json = this.getJSON();
         if (!json) { return }

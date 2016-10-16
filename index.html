@@ -50,7 +50,7 @@
             </div>
             <div class="panel">
                 <div class="panel__controls">
-                    <input type="checkbox" id="toggleJsonPanel" ref="toggleVisibility" checked>
+                    <input type="checkbox" id="toggleJsonPanel" ref="toggleVisibility">
                     <label class="panel__label" for="toggleJsonPanel">JSON Input Panel</label>
                 </div>
                 <div class="panel__contents" ref="contents">
@@ -67,7 +67,7 @@
                 </div>
                 <div class="panel__contents" ref="contents">
                     <div class="fill">
-                        <canvas class="interactive" ref="traceRenderer" width="440" height="280"></canvas>
+                        <canvas class="renderer" ref="traceRenderer" width="440" height="280"></canvas>
                         <output ref="renderOutput"></output>
                     </div>
                     <div>
