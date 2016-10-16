@@ -33,10 +33,23 @@ class Parser {
             let value = this.scope.fields.$capture.join('\n');
             let fieldName = this.scope.name;
             this.scope = this.scope.parent;
+
+            if (fieldName === 'traces') {
+                value = this.parseTraces(value);
+            }
             this.scope.fields[fieldName] = value;
         } else if (this.scope !== this.rootScope) {
             this.scope = this.scope.parent;
         }
+    }
+
+    parseTraces(value) {
+        let mapper = (char) => {
+            let n = parseInt(char, 16);
+            return isNaN(n) ? 0 : n;
+        }
+
+        return value.split('\n').map((line) => line.split('').map(mapper));
     }
 
     captureLine(line) {

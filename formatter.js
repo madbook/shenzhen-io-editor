@@ -47,6 +47,9 @@ class Formatter {
     writeField(parsedObj, name, required) {
         if (name in parsedObj) {
             let value = parsedObj[name];
+            if (name === 'traces') {
+                value = this.formatTraces(value);
+            }
             let type = this.getFormatType(name, value);
 
             if (type === 'value') {
@@ -66,6 +69,11 @@ class Formatter {
         } else if (required) {
             throw new Error(`Missing required field "${name}".`);
         }
+    }
+
+    formatTraces(lines) {
+        let numMapper = (n) => n ? n.toString(16).toUpperCase() : '.';
+        return lines.map((line) => line.map(numMapper).join('')).join('\n');
     }
 
     getFormatType(name, value) {

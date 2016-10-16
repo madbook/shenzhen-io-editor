@@ -65,3 +65,7 @@ textarea.editor__text {
     position: absolute;
     transform-origin: bottom left;
 }
+
+.interactive {
+    cursor: pointer;
+}

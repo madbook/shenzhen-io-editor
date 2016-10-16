@@ -1,3 +1,8 @@
+const RIGHT_TRACE = 0b0001;
+const TOP_TRACE = 0b0010;
+const LEFT_TRACE = 0b0100;
+const BOTTOM_TRACE = 0b1000;
+
 class Editor {
     constructor(rootElement) {
         this.rootElement = rootElement;
@@ -39,6 +44,77 @@ class Editor {
             this.renderJSON();
             e.preventDefault();
         });
+
+        this.traceRenderer.addEventListener('mouseup', (e) => {
+            let x = Math.floor(e.offsetX / CELL_SIZE);
+            let y = Math.floor(e.offsetY / CELL_SIZE);
+            this.endDraw(x, y);
+        });
+
+        this.traceRenderer.addEventListener('mousedown', (e) => {
+            let x = Math.floor(e.offsetX / CELL_SIZE);
+            let y = Math.floor(e.offsetY / CELL_SIZE);
+            this.startDraw(x, y);
+        });
+    }
+
+    startDraw(x, y) {
+        this._startX = x;
+        this._startY = y;
+    }
+
+    endDraw(x, y) {
+        let x1 = this._startX;
+        let y1 = this._startY;
+        this._startX = this._startY = -1;
+
+        let dX = x - x1;
+        let dY = y - y1;
+        let dist =  Math.abs(Math.sqrt(dX * dX + dY * dY));
+        if (dist !== 1) { return }
+
+        let json = this.getJSON();
+        if (!json) { return }
+
+        if (dX > 0) {
+            // left to right
+            json.traces[y1][x1] = json.traces[y1][x1] ^ RIGHT_TRACE;
+            json.traces[y][x] = json.traces[y][x] ^ LEFT_TRACE;
+        } else if (dX < 0) {
+            // right to left
+            json.traces[y1][x1] = json.traces[y1][x1] ^ LEFT_TRACE;
+            json.traces[y][x] = json.traces[y][x] ^ RIGHT_TRACE;
+        } else if (dY > 0) {
+            // top to bottom
+            json.traces[y1][x1] = json.traces[y1][x1] ^ BOTTOM_TRACE;
+            json.traces[y][x] = json.traces[y][x] ^ TOP_TRACE;
+        } else if (dY < 0) {
+            // bottom to top
+            json.traces[y1][x1] = json.traces[y1][x1] ^ TOP_TRACE;
+            json.traces[y][x] = json.traces[y][x] ^ BOTTOM_TRACE;
+        }
+
+        this.setJSON(json);
+        this.formatJSON();
+    }
+
+    getJSON() {
+        try {
+            let text = this.jsonInput.value;
+            return JSON.parse(text);
+        } catch (err) {
+            // TODO
+        }
+    }
+
+    setJSON(json) {
+        try {
+            let text = JSON.stringify(json, null, 4);
+            this.jsonInput.value = text;
+            this.saveToLocalStorage('jsonInput.value', this.jsonInput.value);
+        } catch (err) {
+            // TODO
+        }
     }
 
     parseTxt() {
@@ -46,8 +122,7 @@ class Editor {
             let text = this.txtInput.value;
             let p = new Parser();
             p.parse(text);
-            this.jsonInput.value = JSON.stringify(p, null, 4);
-            this.saveToLocalStorage('jsonInput.value', this.jsonInput.value);
+            this.setJSON(p);
             this.renderJSON();
         } catch (err) {
             this.jsonInput.value = err.stack;
@@ -56,8 +131,7 @@ class Editor {
 
     formatJSON() {
         try {
-            let text = this.jsonInput.value;
-            let json = JSON.parse(text);
+            let json = this.getJSON();
             let f = new Formatter();
             f.format(json);
             this.txtInput.value = f.output;
@@ -72,8 +146,8 @@ class Editor {
         try {
             let text = this.jsonInput.value;
             let json = JSON.parse(text);
-            let r = new Renderer();
-            r.render(json, this.traceRenderer);
+            let r = new Renderer(this.traceRenderer);
+            r.render(json);
             this.renderOutput.textContent = '';
         } catch (err) {
             this.renderOutput.textContent = err.stack;
